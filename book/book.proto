@@ -1,0 +1,35 @@
+syntax = "proto3";
+package book;
+
+
+service Book {
+  rpc GetBooks(BookFilter) returns (stream BookRequest) {}
+  rpc CreateBook(BookRequest) returns (BookResponse) {}
+  rpc UpdateBook(BookRequest) returns (BookResponse) {}
+  rpc RemoveBook(BookFilter) returns (BookResponse) {}
+  rpc GetBook(BookFilter) returns (BookRequest) {}
+  rpc SearchBook(BookFilter) returns (stream BookRequest) {}
+}
+
+message BookRequest {
+  string isbn = 1;
+  string title = 2;
+  bool borrowed = 3;
+  string borrowed_by = 4;
+  
+  message Category {
+	int32 id = 1;
+	string category = 2;
+  }
+  repeated Category categories = 5;
+}
+
+message BookResponse {
+  string isbn = 1;
+  bool success = 2;
+}
+
+message BookFilter {
+  string isbn = 1;
+  string search = 2;
+}
